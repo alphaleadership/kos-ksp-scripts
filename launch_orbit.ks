@@ -40,7 +40,16 @@ UNTIL runmode = 5 {
         // Surveillance de la séparation du premier étage
         // Si le carburant de l'étage actuel est bas, on sépare (cela activera le RTLS sur le booster)
         // Le seuil de 150 correspond au seuil configuré pour le RTLS
-        IF STAGE:LIQUIDFUEL < 160 AND STAGE:LIQUIDFUEL > 0 {
+        // Détection du flameout des boosters
+        LOCAL has_flameout IS FALSE.
+        LOCAL eng_list IS LIST().
+        LIST ENGINES IN eng_list.
+        FOR eng IN eng_list {
+            IF eng:FLAMEOUT {
+                SET has_flameout TO TRUE.
+            }
+        }
+        IF has_flameout {
             PRINT "Carburant bas premier étage ! Séparation..." AT (0, 4).
             LOCK THROTTLE TO 0.0. // Coupe temporairement la poussée pour laisser dériver les boosters
             STAGE. // Découplage du premier étage (Le booster lance son script RTLS sur sa CPU)

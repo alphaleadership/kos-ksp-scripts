@@ -12,9 +12,9 @@ PRINT "CPU Tag détecté : " + CORE:TAG.
 IF CORE:TAG = "booster" {
     PRINT "Booster configuré. Attente de la séparation...".
     
-    // Attendre que la séparation commence (seuil de carburant bas sur l'étage)
-    // Dès que le carburant descend sous 160 unités, le RTLS s'initialise
-    WAIT UNTIL STAGE:LIQUIDFUEL < 160.
+    // Attendre que le booster se détache du vaisseau principal (changement de vaisseau kOS)
+    LOCAL parent_vessel IS SHIP.
+    WAIT UNTIL SHIP != parent_vessel.
     
     PRINT "--- SÉPARATION DÉTECTÉE ---".
     PRINT "Lancement du script de retour RTLS...".
