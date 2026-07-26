@@ -20,8 +20,8 @@ DECLARE FUNCTION calculate_fuel_threshold {
         }
     }
     
-    // Si aucun moteur n'est actif ou identifié, on garde la valeur de secours
-    IF active_count = 0 {
+    // Si aucun moteur n'est actif ou si l'ISP cumulée est nulle, on garde la valeur de secours
+    IF active_count = 0 OR total_isp = 0 {
         RETURN FUEL_THRESHOLD.
     }
     
