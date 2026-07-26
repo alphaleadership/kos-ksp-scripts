@@ -9,7 +9,7 @@ PRINT "================================================".
 PRINT "CPU Tag détecté : " + CORE:TAG.
 
 // 1. Cas du Booster Latéral (Tag: "booster")
-IF CORE:TAG = "booster" {
+IF CORE:TAG == "booster" {
     PRINT "Booster configuré. Attente de la séparation...".
     
     // Attendre que la séparation commence (seuil de carburant bas sur l'étage)
