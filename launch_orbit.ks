@@ -37,10 +37,18 @@ UNTIL runmode = 5 {
         LOCK target_pitch TO MAX(5, 90 * (1 - (SHIP:ALTITUDE / 45000))).
         LOCK STEERING TO HEADING(target_direction, target_pitch).
         
-        // Surveillance de la séparation du premier étage
-        // Si le carburant de l'étage actuel est bas, on sépare (cela activera le RTLS sur le booster)
-        // Le seuil de 150 correspond au seuil configuré pour le RTLS
-        // Détection du flameout des boosters
+        // Détection du carburant restant dans les boosters pour le RTLS (nécessite le tag "booster_tank")
+        LOCAL booster_fuel IS 0.
+        LOCAL tanks_found IS SHIP:PARTSTAGGED("booster_tank").
+        FOR tank IN tanks_found {
+            FOR res IN tank:RESOURCES {
+                IF res:NAME = "LIQUIDFUEL" {
+                    SET booster_fuel TO booster_fuel + res:AMOUNT.
+                }
+            }
+        }
+        
+        // Détection de secours par flameout
         LOCAL has_flameout IS FALSE.
         LOCAL eng_list IS LIST().
         LIST ENGINES IN eng_list.
@@ -49,8 +57,22 @@ UNTIL runmode = 5 {
                 SET has_flameout TO TRUE.
             }
         }
-        IF has_flameout {
-            PRINT "Carburant bas premier étage ! Séparation..." AT (0, 4).
+        
+        // Séparation si le fuel des boosters est sous le seuil de freinage (320 unités)
+        // Ou en secours si un moteur s'éteint et qu'aucun tag n'est configuré
+        LOCAL should_separate IS FALSE.
+        IF tanks_found:LENGTH > 0 {
+            IF booster_fuel < 320 {
+                SET should_separate TO TRUE.
+            }
+        } ELSE {
+            IF has_flameout {
+                SET should_separate TO TRUE.
+            }
+        }
+        
+        IF should_separate {
+            PRINT "Carburant bas boosters ! Séparation..." AT (0, 4).
             LOCK THROTTLE TO 0.0. // Coupe temporairement la poussée pour laisser dériver les boosters
             STAGE. // Découplage du premier étage (Le booster lance son script RTLS sur sa CPU)
             WAIT 2.0. // Laisse le temps aux boosters de s'écarter
@@ -58,7 +80,7 @@ UNTIL runmode = 5 {
             
             // Sécurité : n'activer l'étape suivante (allumage) que si aucun moteur ne pousse
             IF SHIP:MAXTHRUST = 0 {
-                STAGE. // Allumage du moteur du second étage si ce n'était pas fait dans la même étape
+                STAGE. // Allumage du moteur du second étage
             }
             PRINT "Moteur du second étage allumé." AT (0, 5).
         }
