@@ -12,9 +12,9 @@ PRINT "CPU Tag détecté : " + CORE:TAG.
 IF CORE:TAG = "booster" {
     PRINT "Booster configuré. Attente de la séparation...".
     
-    // Attendre que le booster se détache du vaisseau principal (changement de vaisseau kOS)
-    LOCAL parent_vessel IS SHIP.
-    WAIT UNTIL SHIP != parent_vessel.
+    // Attendre que la masse du vaisseau baisse significativement (signe de la séparation des boosters)
+    LOCAL launch_mass IS SHIP:MASS.
+    WAIT UNTIL SHIP:MASS < launch_mass * 0.6.
     
     PRINT "--- SÉPARATION DÉTECTÉE ---".
     PRINT "Lancement du script de retour RTLS...".
