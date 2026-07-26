@@ -158,12 +158,12 @@ UNTIL runmode = 4 {
         }
         
         PRINT "Déclenchement du Landing Burn !" AT (0, 5).
-        LOCK THROTTLE TO 1.0.
+        LOCAL throttle_setting IS 1.0.
+        LOCK THROTTLE TO throttle_setting.
         
         UNTIL SHIP:VELOCITY:SURFACE:MAG < 1.5 OR ALT:RADAR < 3 {
             LOCAL target_accel IS (SHIP:VELOCITY:SURFACE:MAG^2) / (2 * MAX(0.1, ALT:RADAR)).
-            LOCAL throttle_setting IS (target_accel + g) / (SHIP:MAXTHRUST / SHIP:MASS).
-            LOCK THROTTLE TO MIN(1.0, MAX(0.0, throttle_setting)).
+            SET throttle_setting TO MIN(1.0, MAX(0.0, (target_accel + g) / (SHIP:MAXTHRUST / SHIP:MASS))).
             WAIT 0.01.
         }
         
