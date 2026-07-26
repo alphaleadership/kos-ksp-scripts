@@ -104,6 +104,7 @@ UNTIL runmode = 5 {
         
         // Temps de burn estimé
         LOCAL max_accel IS SHIP:MAXTHRUST / SHIP:MASS.
+        IF max_accel = 0 { SET max_accel TO 10. } // Évite la division par zéro
         LOCAL burn_duration IS dv / max_accel.
         
         PRINT "Delta-V requis : " + ROUND(dv, 1) + " m/s" AT (0, 3).

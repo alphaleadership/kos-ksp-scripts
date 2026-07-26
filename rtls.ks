@@ -150,7 +150,7 @@ UNTIL runmode = 4 {
         LOCAL g IS SHIP:SENSORS:GRAV:MAG.
         LOCAL max_accel IS (SHIP:MAXTHRUST / SHIP:MASS) - g.
         
-        LOCK burn_altitude TO (SHIP:VELOCITY:SURFACE:MAG^2) / (2 * max_accel).
+        LOCK burn_altitude TO (SHIP:VELOCITY:SURFACE:MAG^2) / (2 * MAX(0.1, max_accel)).
         
         UNTIL SHIP:ALTITUDE - target_geo:ALTITUDE <= burn_altitude + 40 {
             PRINT "Altitude Radar : " + ROUND(ALT:RADAR) + "m | Hauteur de Burn : " + ROUND(burn_altitude) + "m   " AT (0, 3).
@@ -163,7 +163,9 @@ UNTIL runmode = 4 {
         
         UNTIL SHIP:VELOCITY:SURFACE:MAG < 1.5 OR ALT:RADAR < 3 {
             LOCAL target_accel IS (SHIP:VELOCITY:SURFACE:MAG^2) / (2 * MAX(0.1, ALT:RADAR)).
-            SET throttle_setting TO MIN(1.0, MAX(0.0, (target_accel + g) / (SHIP:MAXTHRUST / SHIP:MASS))).
+            LOCAL ship_accel IS SHIP:MAXTHRUST / SHIP:MASS.
+            IF ship_accel = 0 { SET ship_accel TO 10. }
+            SET throttle_setting TO MIN(1.0, MAX(0.0, (target_accel + g) / ship_accel)).
             WAIT 0.01.
         }
         
