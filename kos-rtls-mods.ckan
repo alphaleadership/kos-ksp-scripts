@@ -1,0 +1,36 @@
+{
+    "spec_version": "v1.18",
+    "identifier": "kos-rtls-mods",
+    "name": "Mods Recommandes pour kOS & RTLS",
+    "abstract": "Metapackage contenant les mods indispensables et fortement recommandes pour executer et optimiser les scripts de vol, de retour de booster (RTLS) et de guidage automatique.",
+    "author": "Antigravity",
+    "version": "1.0.0",
+    "ksp_version_min": "1.12.0",
+    "ksp_version_max": "1.12.99",
+    "license": "MIT",
+    "kind": "metapackage",
+    "depends": [
+        {
+            "name": "kOS",
+            "comment": "Kerbal Operating System - Indispensable pour executer les scripts de vol."
+        },
+        {
+            "name": "Trajectories",
+            "comment": "Indispensable pour prevoir le point d'impact aerodynamique precis lors du RTLS."
+        },
+        {
+            "name": "KerbalEngineerRedux",
+            "comment": "Fournit des donnees de vol en temps reel tres precises indispensables pour calibrer les trajectoires."
+        },
+        {
+            "name": "RCSBuildAid",
+            "comment": "Aide a equilibrer parfaitement les moteurs RCS pour eviter les couples parasites pendant les rotations."
+        }
+    ],
+    "recommends": [
+        {
+            "name": "KerbalJointReinforcementUpdated",
+            "comment": "Empeche les fusees multi-etages de plier sous les forces aerodynamiques et du gravity turn."
+        }
+    ]
+}
