@@ -38,7 +38,7 @@ DECLARE FUNCTION calculate_fuel_threshold {
     LOCAL margin_seconds IS 20.
     
     LOCAL calculated_threshold IS fuel_flow_rate * margin_seconds.
-    RETURN MAX(100, calculated_threshold). // Minimum de sécurité de 100 unités
+    RETURN MAX(1120, calculated_threshold). // Minimum de sécurité de 100 unités
 }
 
 CLEARSCREEN.
@@ -64,7 +64,8 @@ UNTIL runmode = 4 {
     IF runmode = 0 {
         PRINT "Phase 0 : Surveillance du carburant pour séparation..." AT (0, 2).
         PRINT "LiquidFuel restant dans l'étage : " + ROUND(STAGE:LIQUIDFUEL, 1) + " units   " AT (0, 3).
-        
+        PRINT "Seuil de carburant RTLS calculé automatiquement : " + ROUND(FUEL_THRESHOLD, 1) + " units".
+
         // Si le carburant descend sous le seuil, on sépare
         IF STAGE:LIQUIDFUEL < FUEL_THRESHOLD {
             PRINT "Carburant bas détecté ! Séparation..." AT (0, 5).
