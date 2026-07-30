@@ -165,8 +165,9 @@ UNTIL NOT fbw_active {
 
         // Gestion du calcul du cap vers l'aérodrome insulaire
         IF island_nav {
-            // target_island:BEARING donne le cap direct géographique vers l'île
-            SET target_heading TO target_island:BEARING.
+            LOCAL current_h IS compass_heading().
+            SET target_heading TO current_h + target_island:BEARING.
+            IF target_heading >= 360 { SET target_heading TO target_heading - 360. }
             IF target_heading < 0 { SET target_heading TO target_heading + 360. }
         }
 
