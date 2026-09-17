@@ -188,7 +188,7 @@ UNTIL runmode = 4 {
         LOCAL throttle_setting IS 1.0.
         LOCK THROTTLE TO throttle_setting.
 
-        UNTIL SHIP:VELOCITY:SURFACE:MAG < 1.5 OR ALT:RADAR < 3 {
+        UNTIL SHIP:VELOCITY:SURFACE:MAG < 1.5 AND ALT:RADAR < 3 {
             LOCAL target_accel IS (SHIP:VELOCITY:SURFACE:MAG^2) / (2 * MAX(0.1, ALT:RADAR)).
             LOCAL ship_accel IS SHIP:MAXTHRUST / SHIP:MASS.
             IF ship_accel = 0 { SET ship_accel TO 10. }
