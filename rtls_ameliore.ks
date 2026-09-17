@@ -172,7 +172,7 @@ UNTIL runmode = 4 {
         PRINT "Phase 3 : Suicide Burn & Atterrissage" AT (0, 2).
         GEAR ON.
         RCS ON.
-        LOCK STEERING TO SHIP:RETROGRADE.
+        LOCK STEERING TO SHIP:SRFRETROGRADE.
 
         LOCAL g IS SHIP:SENSORS:GRAV:MAG.
         LOCAL max_accel IS (SHIP:MAXTHRUST / SHIP:MASS) - g.
