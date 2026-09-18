@@ -29,7 +29,7 @@ function copyFile(srcFile) {
     const filename = path.basename(srcFile);
     
     // Si c'est un script de boot, on le place dans le sous-dossier boot/
-    if (filename.startsWith('boot_')) {
+    if (filename.startsWith('boot_') || filename === 'boot.ks') {
         destDir = path.join(kspPath, 'boot');
     }
 
