@@ -6,7 +6,7 @@ Ce guide récapitule le fonctionnement et les touches de contrôle du script de 
 
 ## 1. Phase de Décollage (Automatique)
 Dès le lancement du script :
-* **Mise en poussée** : Les gaz sont verrouillés à 100% et les freins sont serrés pendant 1 seconde pour stabiliser l'avion.
+* **Mise en poussée** : Les gaz sont verrouillés à 100% et les freins sont serrés pendant 2 secondes pour stabiliser l'avion.
 * **Roulage** : Les freins sont relâchés. Durant le roulage initial (jusqu'à 25 m/s), la direction reste libre et stabilisée par le SAS de KSP pour éviter tout dérapage.
 * **Guidage au sol** : Au-delà de 25 m/s, le cap est verrouillé sur l'axe de la piste (Cap 90° Est).
 * **Rotation et Envol** : À 80 m/s, l'avion cabre à 12° de tangage. Une fois en vol (Altitude Radar > 20m), le train d'atterrissage est rentré et le système **Fly-By-Wire** s'active.
